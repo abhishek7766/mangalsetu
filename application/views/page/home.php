@@ -40,7 +40,7 @@ body{
 <body>
 <div class="header_bar text-center" style="margin-bottom:0">
 <nav class="container navbar navbar-expand-lg navbar-dark bg-none">
-  <a class="navbar-brand" href="<?= base_url('Member');?>">Mangal Setu</a>
+  <a class="navbar-brand" style="font-family: sans-serif;font-weight: 900;" href="<?= base_url('Member');?>">Mangal Setu</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -60,7 +60,7 @@ body{
 			if (!isset ( $isLoggedIn ) || $isLoggedIn == TRUE) {
 		?>
 		<li class="nav-item">
-        	<a class="nav-link" href="<?= base_url('Member/Member');?>">Dashboard</a>
+        	<a class="nav-link" href="<?= base_url('Member');?>">Dashboard</a>
 		</li>
 		<li class="nav-item">
         	<a class="nav-link" href="<?= base_url('Member/Profile');?>">Profile</a>

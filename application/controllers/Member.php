@@ -15,6 +15,7 @@ Class Member extends MemberLib {
     public function index(){
 
         $this->is_profile_complete();
+
         $this->global['title'] = "MangalSetu : Dashboard";
         $this->global['profile_percent'] = $this->claculate_profile_per($this->id);
         $this->global['listing'] = $this->member_model->get_listing($this->intrested_in);
@@ -25,6 +26,7 @@ Class Member extends MemberLib {
     public function setting(){
         
         $this->is_profile_complete();
+
         $this->global['title'] = "MangalSetu : Setting";
         
         $this->loadViews("setting", $this->global, NULL , NULL);
@@ -289,10 +291,8 @@ Class Member extends MemberLib {
     }
 
     public function is_profile_complete(){
-        if($this->member_model->check_profile_per($this->id)){
-            redirect('member');
-        }else{
-            redirect('Member/EditProfile');     
+        if(!$this->member_model->check_profile_per($this->id)){
+            redirect('Member/EditProfile'); 
         }
     }
 
