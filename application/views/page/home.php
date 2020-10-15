@@ -115,7 +115,7 @@ body{
     </div>
     <div class="col-sm-4">
       <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="container-fluid embed-responsive-item" src="assets/vedio/intro.MP4" allowfullscreen></iframe>
+        <iframe class="container-fluid embed-responsive-item" src="assets/vedio/intro.mp4" allowfullscreen></iframe>
       </div>
     </div>
   </div>
