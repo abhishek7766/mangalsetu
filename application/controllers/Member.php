@@ -292,7 +292,7 @@ Class Member extends MemberLib {
         if($this->member_model->check_profile_per($this->id)){
             redirect('member');
         }else{
-            redirect('Member/EditProfile'); 
+            redirect('Member/EditProfile');
         }
     }
 
