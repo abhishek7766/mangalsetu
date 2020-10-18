@@ -297,10 +297,12 @@ class Member_model extends CI_Model
     }
 
     function check_profile_per($id){
-        $this->db->select('profile_percent');
-        $this->db->where('member_id', $id);
-        $this->db->where('profile_percent >', 80);  
-        $query = $this->db->get('tbl_member_profile');
+        $this->db->select('a.profile_percent,b.payment_status');
+        $this->db->where('a.member_id', $id);
+        $this->db->where('a.profile_percent >', 80);  
+        $this->db->where('b.payment_status', 1);
+        $this->db->JOIN('tbl_member as b','b.member_id = a.member_id');  
+        $query = $this->db->get('tbl_member_profile as a');
         
         $user = $query->result();
 

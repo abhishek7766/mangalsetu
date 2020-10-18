@@ -1,14 +1,113 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * Class : User_model (User Model)
- * User model class to get to handle user related data 
- * @author : Kishor Mali
- * @version : 1.1
- * @since : 15 November 2016
- */
 class User_model extends CI_Model
 {
+    function fetch_states(){
+        $this->db->select('id,state');
+        $query = $this->db->get('tbl_states');
+        $data = $query->result_array();
+        
+        if(!empty($data)){
+            return $data;
+        } else {
+            return "0";
+        }
+    }
+
+    function fetch_city($state_id){
+        $this->db->select('id,city');
+        $this->db->where('state_id',$state_id);
+        $query = $this->db->get('tbl_cities');
+        
+        $output = '<option value="">Select City</option>';
+        foreach($query->result() as $row)
+        {
+         $output .= '<option value="'.$row->id.'">'.$row->city.'</option>';
+        }
+        return $output;
+    }
+
+    function getMemberCity($memberId){
+        $this->db->select('b.id,b.city');
+        $this->db->where('member_id',$memberId);
+        $this->db->JOIN('tbl_cities as b','b.id = a.city');
+        $query = $this->db->get('tbl_member as a');
+        
+        $data = $query->row();
+        
+        if(!empty($data)){
+            return $data;
+        } else {
+            return "0";
+        }
+    }
+
+    function creat_new_member($data)
+    {
+        $result = $this->db->insert('tbl_member', $data);
+        
+        if($result) {
+            $profile_data['member_id'] = $data['member_id'];
+            $dateOfBirth = $this->input->post('dob');
+            $today = date("Y-m-d");
+            $diff = date_diff(date_create($dateOfBirth), date_create($today));
+            $age = $diff->format('%y');
+            $profile_data['age'] = $age;
+            $profile = $this->db->insert('tbl_member_profile',$profile_data);
+            if($profile) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    function lastId(){
+        $this->db->select('id');
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('tbl_member');
+        
+        $data = $query->row();
+        if(!empty($data)){
+            return $data->id;
+        } else {
+            return "0";
+        }
+    }
+
+    function Action_on_Member($id,$data){
+        $data['updated_on']     = date('Y-m-d H:i:s');
+
+        $this->db->where('member_id',$id);
+        $this->db->update('tbl_member',$data);
+        
+        if ($this->db->affected_rows() > 0)
+        {
+            return True;
+        }
+        else
+        {
+        return FALSE;
+        }
+    }
+
+    function isRefrenceExist($vendorId,$memberId){
+        $this->db->select('member_id');
+        $this->db->where('member_id',$memberId);
+        $this->db->where('refrenceid',$vendorId);
+        $query = $this->db->get('tbl_member');
+
+        $user = $query->result();
+
+        if(!empty($user)){
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * This function is used to get the user listing count
      * @param string $searchText : This is optional search text
@@ -70,7 +169,7 @@ class User_model extends CI_Model
         }
         if(!empty($searchText)) {
             $likeCriteria = "(BaseTbl.email  LIKE '%".$searchText."%'
-                            OR  BaseTbl.mobile  LIKE '%".$searchText."%')";
+                            OR  BaseTbl.phone  LIKE '%".$searchText."%')";
             $this->db->where($likeCriteria);
         }
         $this->db->where('BaseTbl.isDeleted', 0);
@@ -89,7 +188,7 @@ class User_model extends CI_Model
         }
         if(!empty($searchText)) {
             $likeCriteria = "(BaseTbl.email  LIKE '%".$searchText."%'
-                            OR  BaseTbl.mobile  LIKE '%".$searchText."%')";
+                            OR  BaseTbl.phone  LIKE '%".$searchText."%')";
             $this->db->where($likeCriteria);
         }
         $this->db->where('BaseTbl.isDeleted', 0);
@@ -169,6 +268,16 @@ class User_model extends CI_Model
         return $query->row();
     }
     
+    function getMemberInfo($memberId)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_member');
+        $this->db->where('isDeleted', 0);
+        $this->db->where('member_Id', $memberId);
+        $query = $this->db->get();
+        
+        return $query->row();
+    }
     
     /**
      * This function is used to update the user information
@@ -183,7 +292,13 @@ class User_model extends CI_Model
         return TRUE;
     }
     
-    
+    function editMember($data, $memberId)
+    {
+        $this->db->where('member_id', $memberId);
+        $this->db->update('tbl_member', $data);
+        
+        return TRUE;
+    }
     
     /**
      * This function is used to delete the user information
@@ -194,6 +309,14 @@ class User_model extends CI_Model
     {
         $this->db->where('userId', $userId);
         $this->db->update('tbl_users', $userInfo);
+        
+        return $this->db->affected_rows();
+    }
+
+    function deleteMember($memberId, $userInfo)
+    {
+        $this->db->where('member_id ', $memberId);
+        $this->db->update('tbl_member', $userInfo);
         
         return $this->db->affected_rows();
     }

@@ -62,7 +62,7 @@
 			<div class="card text-white bg-danger mt-4 mb-4" >
 				<div class="card-header text-center"><h3>About Us</h3></div>
 				<div class="card-body">
-					<p class="card-text"><i class="fa fa-flag" aria-hidden="true"></i>The main objective of MANGAL SETU Web Application is to provide Grooms and Brides with excellent matchmaking experience by exploring the opportunities and resources to meet true potential partner.</p>
+					<p class="card-text">The main objective of MANGAL SETU Web Application is to provide Grooms and Brides with excellent matchmaking experience by exploring the opportunities and resources to meet true potential partner.</p>
 					<p class="card-text">The main purpose of MANGAL SETU is to facilitate matchmaking business by applying the information in the field.</p>
 					<p class="card-text">User can get information regarding their dream life partner at his/her home at his/her convenience. MANGAL SETU also provides a search utility which helps those users who have a certain criteria of qualities in mind to make online matrimonial easier.</p>
 					<p class="card-text">MANGAL SETUl Web  will allow a new user to register and after successfully registration user can get email confirmation and his/her profile will be visible to other users.</p>

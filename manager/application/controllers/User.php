@@ -18,15 +18,27 @@ class User extends BaseController
      * This function used to load the first screen of the user
      */
     public function index()
-    {
+    {   
         $this->global['pageTitle'] = 'Mangalsetu : Dashboard';
         $data['noOfMembers'] = $this->user_model->getNoOfMembers();
         $data['noOfEmployees'] = $this->user_model->noOfEmployees();
         $data['noOfPMember'] = $this->user_model->noOfPMember();
+        $data['states'] = $this->get_states();
         
         $this->loadViews("dashboard", $this->global, $data , NULL);
     }
     
+    public function get_states(){
+        $data = $this->user_model->fetch_states();
+        return $data;
+    }
+
+    public function get_cities(){
+        if($this->input->post('state_id'))
+        {
+        echo $this->user_model->fetch_city($this->input->post('state_id'));
+        }
+    }
     /**
      * This function is used to load the user list
      */
@@ -162,6 +174,85 @@ class User extends BaseController
         }
     }
 
+    function addNewMember()
+    {
+        $this->load->library('form_validation');
+    
+        $this->form_validation->set_rules('firstname','FirstName','trim|required|max_length[128]');
+        $this->form_validation->set_rules('lastname','LastName','trim|required|max_length[128]');
+        $this->form_validation->set_rules('gender','Gender','trim|required');
+        $this->form_validation->set_rules('dob','DOB','trim|required');
+        $this->form_validation->set_rules('state','State','trim|required');
+        $this->form_validation->set_rules('city','City','trim|required');
+        $this->form_validation->set_rules('phone','Phone','trim|required|is_unique[tbl_member.phone]');
+        $this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[tbl_member.email]');
+        $this->form_validation->set_rules('intrested_in','Intrested In','trim|required');
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $this->index();
+        }
+        else
+        {
+            $data['firstname']      = $this->input->post('firstname');
+            $data['lastname']       = $this->input->post('lastname');
+            $data['member_id']      = $this->get_memberID();
+            $data['phone']          = $this->input->post('phone');
+            $data['dob']            = $this->input->post('dob');
+            $data['gender']         = $this->input->post('gender');
+            $data['state']          = $this->input->post('state');
+            $data['city']           = $this->input->post('city');
+            $data['intrested_in']   = $this->input->post('intrested_in');
+            $data['refrenceid']     = $this->session->userdata('userId');
+            $data['email']          = $this->input->post('email');
+            $data['roleid']         = "4";
+            $data['email_verify']   = md5(rand());
+            $data['phone_verify']   = mt_rand(1000, 9999);
+            $data['created_on']     = date('Y-m-d H:i:s');
+            
+            if($this->user_model->creat_new_member($data))
+            {
+                
+                $data1["email"] = $data['email'];
+                $data1["passcode"] = $data['email_verify'];
+
+                $welcomeEmail = welcomeEmail($data1); 
+                $verifyEmail = verifyEmail($data1); 
+
+                $this->session->set_flashdata('success', 'New User created successfully');
+            }
+            else
+            {
+                $this->session->set_flashdata('error', 'User creation failed');
+            }
+            
+            redirect('dashboard');
+        }
+    }
+
+    public function get_MemberId(){
+        $last_id = $this->user_model->lastId();
+        $last_id++;
+        $new_id = "MSM-".str_pad($last_id, 4, "0", STR_PAD_LEFT);
+        return $new_id;
+    }
+
+    function MemberAction($id="",$status = ""){
+        if(!empty($id)){
+            $data = array();
+            if($status == 1){
+                $data['payment_status'] = 1;
+                $data['isPrime'] = 1;
+                $this->session->set_flashdata('success', 'Member Is Paied and Activated!');
+            }else{
+                $data['payment_status'] = 0;
+                $data['isPrime'] = 0;
+                $this->session->set_flashdata('error', 'Member Is Deactivate!');
+            }
+            $result = $this->user_model->Action_on_Member($id,$data);
+        }
+        redirect('memberListing');
+    }
     
     /**
      * This function is used load user edit information
@@ -188,7 +279,33 @@ class User extends BaseController
             $this->loadViews("editOld", $this->global, $data, NULL);
         }
     }
-    
+
+    function editOldMember($memberId = NULL)
+    {
+        if($memberId == null)
+        {
+            redirect('memberListing');
+        }
+        if($this->role == 3 && $this->user_model->isRefrenceExist($this->vendorId,$memberId)){
+            $data['memberInfo'] = $this->user_model->getMemberInfo($memberId);
+            $data['states'] = $this->get_states();
+            $data['citydetail']   = $this->user_model->getMembercity($memberId);
+            
+            $this->global['pageTitle'] = 'MangalSetu : Edit Member';
+            
+            $this->loadViews("editOldMember", $this->global, $data, NULL);
+        }elseif($this->role == ROLE_ADMIN){
+            $data['memberInfo'] = $this->user_model->getMemberInfo($memberId);
+            $data['states'] = $this->get_states();
+            $data['citydetail']   = $this->user_model->getMembercity($memberId);
+            
+            $this->global['pageTitle'] = 'MangalSetu : Edit Member';
+            
+            $this->loadViews("editOldMember", $this->global, $data, NULL);
+        }else{
+            $this->loadThis();
+        }
+    }    
     
     /**
      * This function is used to edit the user information
@@ -254,8 +371,59 @@ class User extends BaseController
         }
     }
 
+    function editMember()
+    { 
+        $this->load->library('form_validation');
+            
+        $memberId = $this->input->post('memberId');
+        
+        $this->form_validation->set_rules('firstname','FirstName','trim|required|max_length[128]');
+        $this->form_validation->set_rules('lastname','LastName','trim|required|max_length[128]');
+        $this->form_validation->set_rules('gender','Gender','trim|required');
+        $this->form_validation->set_rules('dob','DOB','trim|required');
+        $this->form_validation->set_rules('state','State','trim|required');
+        $this->form_validation->set_rules('city','City','trim|required');
+        $this->form_validation->set_rules('phone','Phone','trim|required');
+        $this->form_validation->set_rules('email','Email','trim|required|valid_email');
+        $this->form_validation->set_rules('intrested_in','Intrested In','trim|required');
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $this->editOldMember($memberId);
+        }
+        else
+        {
+            $data['firstname']      = $this->input->post('firstname');
+            $data['lastname']       = $this->input->post('lastname');
+            $data['phone']          = $this->input->post('phone');
+            $data['dob']            = $this->input->post('dob');
+            $data['gender']         = $this->input->post('gender');
+            $data['state']          = $this->input->post('state');
+            $data['city']           = $this->input->post('city');
+            $data['intrested_in']   = $this->input->post('intrested_in');
+            $data['email']          = $this->input->post('email');
+            $data['updated_on']     = date('Y-m-d H:i:s');
+            
+            $result = $this->user_model->editMember($data, $memberId);
+            
+            if($result == true)
+            {
+                $this->session->set_flashdata('success', 'Member updated successfully');
+            }
+            else
+            {
+                $this->session->set_flashdata('error', 'Member updation failed');
+            }
+            
+            redirect('editOldMember/'.$memberId);
+        }
+    }
+
     function memberListing()
     {
+        if($this->role == 3){
+            redirect('myMembers');
+        }
         if($this->isAdmin() == TRUE)
         {
             $this->loadThis();
@@ -265,6 +433,36 @@ class User extends BaseController
             
             $searchText = $this->security->xss_clean($this->input->post('searchText'));
             $emp_id = $this->input->post('emp_id');
+            
+            $data['searchText'] = $searchText;
+            $data['emp_id'] = $emp_id;
+            $data['emp_lists'] = $this->user_model->get_emp_list();
+            
+            $this->load->library('pagination');
+             
+            $count = $this->user_model->memberListingCount($searchText,$emp_id);
+
+			$returns = $this->paginationCompress ( "memberListing/", $count, 10 );
+            
+            $data['userRecords'] = $this->user_model->memberListing($searchText,$emp_id,$returns["page"], $returns["segment"]);
+            //echo "<pre>"; print_r($data['userRecords']);die;
+            $this->global['pageTitle'] = 'MangalSetu : Member Listing';
+            
+            $this->loadViews("members_listing", $this->global, $data, NULL);
+        }
+    }
+
+    function myMembers()
+    {  
+        if($this->role != 3)
+        {
+            $this->loadThis();
+        }
+        else
+        {        
+            
+            $searchText = $this->security->xss_clean($this->input->post('searchText'));
+            $emp_id = $this->vendorId;
             
             $data['searchText'] = $searchText;
             $data['emp_id'] = $emp_id;
@@ -330,6 +528,24 @@ class User extends BaseController
             else { echo(json_encode(array('status'=>FALSE))); }
         }
     }
+
+    function deleteMember()
+    {
+        if($this->isAdmin() == TRUE)
+        {
+            echo(json_encode(array('status'=>'access')));
+        }
+        else
+        {
+            $memberId = $this->input->post('memberId');
+            $userInfo = array('isDeleted'=>1,'updated_on'=>date('Y-m-d H:i:s'));
+            
+            $result = $this->user_model->deleteMember($memberId, $userInfo);
+            
+            if ($result > 0) { echo(json_encode(array('status'=>TRUE))); }
+            else { echo(json_encode(array('status'=>FALSE))); }
+        }
+    }
     
     /**
      * Page not found : error 404
@@ -346,7 +562,7 @@ class User extends BaseController
      * @param number $userId : This is user id
      */
     function loginHistoy($userId = NULL)
-    {
+    {   
         if($this->isAdmin() == TRUE)
         {
             $this->loadThis();

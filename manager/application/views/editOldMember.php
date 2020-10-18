@@ -2,54 +2,6 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard
-        <small>Control panel</small>
-      </h1>
-    </section>
-    
-    <section class="content" style="min-height: auto !important;">
-        <div class="row">
-            <div class="col-lg-4 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-aqua">
-                <div class="inner">
-                  <h3><?php if(isset($noOfMembers)){echo $noOfMembers;}else{echo "0";}?></h3>
-                  <p>Total Members</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-android-people"></i>
-                </div>
-              </div>
-            </div><!-- ./col -->
-            <div class="col-lg-4 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-green">
-                <div class="inner">
-                  <h3><?php if(isset($noOfEmployees)){echo $noOfEmployees;}else{echo "0";}?></h3>
-                  <p>Total Emoloyees</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-android-person-add"></i>
-                </div>
-              </div>
-            </div><!-- ./col -->
-            <div class="col-lg-4 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-yellow">
-                <div class="inner">
-                  <h3><?php if(isset($noOfPMember)){echo $noOfPMember;}else{echo "0";}?></h3>
-                  <p>Premium Members</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-android-contacts"></i>
-                </div>
-              </div>
-            </div><!-- ./col -->
-          </div>
-    </section>
-
-    <section class="content-header">
-      <h1>
         <i class="fa fa-users"></i> Member Management
         <small>Add / Edit Member</small>
       </h1>
@@ -66,25 +18,25 @@
                 
                 <div class="box box-primary">
                     <div class="box-header">
-                        <h3 class="box-title">Enter User Details</h3>
+                        <h3 class="box-title">Enter Member Details</h3>
                     </div><!-- /.box-header -->
                     <!-- form start -->
-                    <?php $this->load->helper("form"); ?>
-                    <form role="form" id="addMember" action="<?php echo base_url() ?>addNewMember" method="post" role="form">
+                    
+                    <form role="form" action="<?php echo base_url() ?>editMember" method="post" id="editMember" role="form">
                         <div class="box-body">
-
-                            <div class="row">
+                        
+                        <div class="row">
                                 <div class="col-md-6">                                
                                     <div class="form-group">
                                         <label for="firstname">FirstName</label>
-                                        <input type="text" class="form-control required" value="<?php echo set_value('firstname'); ?>" id="firstname" name="firstname" maxlength="128">
+                                        <input type="text" class="form-control required" value="<?= $memberInfo->firstname;?>" id="firstname" name="firstname" maxlength="128">
                                     </div>
                                     
                                 </div>
                                 <div class="col-md-6">                                
                                     <div class="form-group">
                                         <label for="lastname">LastName</label>
-                                        <input type="text" class="form-control required" value="<?php echo set_value('lastname'); ?>" id="lastname" name="lastname" maxlength="128">
+                                        <input type="text" class="form-control required" value="<?= $memberInfo->lastname;?>" id="lastname" name="lastname" maxlength="128">
                                     </div>
                                     
                                 </div>
@@ -96,15 +48,15 @@
                                         <label for="gender">Gender</label>
                                         <select class="form-control" class="form-control required" name="gender" id="gender">
                                             <option value="">Select Gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="female">Female</option>
+                                            <option <?php echo ($memberInfo->gender == "Male")?"Selected":"";?> value="Male">Male</option>
+                                            <option <?php echo ($memberInfo->gender == "Female")?"Selected":"";?> value="Female">Female</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="dob">DOB</label>
-                                        <input placeholder="Select date" type="date" name="dob" id="example" class="form-control">
+                                        <input placeholder="Select date" type="date" value="<?= $memberInfo->dob;?>" name="dob" id="example" class="form-control">
                                     </div>
                                 </div>
                               </div>
@@ -116,7 +68,7 @@
                                         <select class="form-control" name="state" id="state">    
                                             <option value="">Select State</option>
                                             <?php foreach ($states as $state) { ?>
-                                            <option value="<?php echo $state['id'] ?>"><?php echo $state['state']?> </option>
+                                            <option <?php echo ($memberInfo->state == $state['id'] )?"Selected":"";?> value="<?php echo $state['id'] ?>"><?php echo $state['state']?> </option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -124,8 +76,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="city">City</label>
-                                        <select class="form-control" name="city" id="city" disabled>
-                                            <option value="">Select City</option>
+                                        <select class="form-control" name="city" id="city">
+                                            <option value="<?= $citydetail->id;?>"><?= $citydetail->city;?></option>
                                         </select>
                                     </div>
                                 </div>
@@ -136,14 +88,14 @@
                                         <label for="phone">Mobile Number</label>
                                         <div class="input-group">
                                             <span class="input-group-addon tag-addon">+91</span>
-                                            <input type="phone" id="phone" maxlength="10" name="phone" class="form-control" placeholder="Mobile Number" required>
+                                            <input type="phone" id="phone" maxlength="10" name="phone" value="<?= $memberInfo->phone;?>" class="form-control" placeholder="Mobile Number" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="email">Email address</label>
-                                        <input type="text" class="form-control required email" id="email" value="<?php echo set_value('email'); ?>" name="email" maxlength="128">
+                                        <input type="text" class="form-control required email" id="email" value="<?= $memberInfo->email;?>" name="email" maxlength="128">
                                     </div>
                                 </div>
                             </div>
@@ -153,17 +105,17 @@
                                         <label for="intrested_in">Intrested In</label>
                                         <select class="form-control" name="intrested_in" id="intrested_in">
                                             <option value="">Intrested In..</option>
-                                            <option value="Male">Male</option>
-                                            <option value="female">Female</option>
+                                            <option <?php echo ($memberInfo->intrested_in == "Male")?"Selected":"";?> value="Male">Male</option>
+                                            <option <?php echo ($memberInfo->intrested_in == "Female")?"Selected":"";?> value="female">Female</option>
                                         </select>
                                       </div>
                                 </div>
                             </div>
-
                         </div><!-- /.box-body -->
     
                         <div class="box-footer">
-                            <input type="submit" class="btn btn-primary" value="Submit" />
+                            <input type="hidden" name="memberId" value="<?= $memberInfo->member_id;?>">
+                            <input type="submit" class="btn btn-primary" value="Update" />
                         </div>
                     </form>
                 </div>
@@ -200,6 +152,7 @@
         </div>    
     </section>
 </div>
+
 <script>
 function setInputFilter(textbox, inputFilter) {
     ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {

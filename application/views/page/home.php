@@ -124,7 +124,7 @@ body{
 <div class="row">
     <div class="col-sm-8">
 <div class="  text-center">
-  <h3>Population Of Agrawals in India</h3>
+  <h3>Population Of Agrawals in India<sup>(In Lakhs)</sup></h3>
   <div class="table-responsive" >   
       <table class="table table-bordered" style="    background: #d4baba;">
     <thead>

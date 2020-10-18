@@ -85,11 +85,16 @@
                     </div>
                     <div class="form-group">
                         <p class="alert_message" style="float:left;padding-top: 15px;" style="float:left"></p>
-                        <p class="success_message" style="float:left;padding-top: 15px;" style="float:left"></p>
                         <img id="reg_loder" src="<?= base_url();?>assets/img/reg_loder.gif" style="float: right;display: none;">
                         <button type="button" id="submit_form" class="btn btn-info btn-block" style="float:right">Register</button>
                     </div>
                 </form>
+                <div class="alert alert-none text-center" id="after_success" style="display: none;" role="alert">
+                    <h4 class="alert-heading">Thank You!</h4>
+                    <p class="success_message"></p>
+                    <hr>
+                    <p class="mb-0">Please Proceed for <a href="<?= base_url('login');?>">Login!</a></p>
+                </div>
             </div>
         </div>
 </body>
@@ -163,14 +168,10 @@ $(function() {
             success: function(response){
                 //console.log(response);
                 if(response.status == 'success') {
-                    $("#reg_loder").hide();
-                    $("#submit_form").show(); 
                     $("#register_form")[0].reset();
-                    text.style.display = "none";
+                    $('#register_form').hide();
+                    $('#after_success').show();
                     $(".success_message").html(response.message);
-                    setTimeout(function(){
-                        $(".success_message").html("");
-                    }, 10000);
                 }else{
                     $("#reg_loder").hide();
                     $("#submit_form").show();

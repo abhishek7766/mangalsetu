@@ -108,7 +108,7 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
               </a>
             </li>
-        
+            
             <?php
             if($role == ROLE_ADMIN)
             {
@@ -133,7 +133,14 @@
             </li>
             <?php
             }
-            ?>
+            if($role ==3){
+              ?>
+              <li>
+              <a href="<?php echo base_url(); ?>myMembers">
+                <i class="fa fa-users"></i> <span>Members</span></i>
+              </a>
+            </li>
+              <?php }?>
           </ul>
         </section>
         <!-- /.sidebar -->

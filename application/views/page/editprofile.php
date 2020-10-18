@@ -130,8 +130,9 @@
             <p class="alert_message" style="float:left;padding-top: 15px;" style="float:left"></p>
             <p class="success_message" style="float:left;padding-top: 15px;" style="float:left"></p>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 form-inline">
             <button class="btn btn-info btn-block" type="button" id="submit_edit">Save</button>
+            <a href="<?= base_url('Payment');?>" class="btn btn-success btn-block">Proceed To Payment</a>
           </div>
         </div>
       </form>  

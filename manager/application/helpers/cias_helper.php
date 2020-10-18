@@ -140,6 +140,38 @@ if(!function_exists('resetPasswordEmail'))
     }
 }
 
+if(!function_exists('welcomeEmail'))
+{
+    function welcomeEmail($data)
+    {        
+        $CI = setProtocol();        
+        
+        $CI->email->from(EMAIL_FROM, FROM_NAME);
+        $CI->email->subject("Welcome To Mangalsetu.");
+        $CI->email->message($CI->load->view('email/welcome_email', $data, TRUE));
+        $CI->email->to($data["email"]);
+        $status = $CI->email->send();
+        
+        return $status;
+    }
+}
+
+if(!function_exists('verifyEmail'))
+{
+    function verifyEmail($data)
+    {
+        $CI = setProtocol();        
+        
+        $CI->email->from(EMAIL_FROM, FROM_NAME);
+        $CI->email->subject("Welcome To Mangalsetu.");
+        $CI->email->message($CI->load->view('email/email_verification', $data, TRUE));
+        $CI->email->to($data["email"]);
+        $status = $CI->email->send();
+        
+        return $status;
+    }
+}
+
 if(!function_exists('setFlashData'))
 {
     function setFlashData($status, $flashMsg)
