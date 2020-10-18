@@ -20,7 +20,7 @@ $role = $userInfo->role;
     
         <div class="row">
             <!-- left column -->
-            <div class="col-md-3">
+            <div class="col-md-4">
               <!-- general form elements -->
 
 
@@ -126,7 +126,7 @@ $role = $userInfo->role;
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <?php
                     $this->load->helper('form');
                     $error = $this->session->flashdata('error');
