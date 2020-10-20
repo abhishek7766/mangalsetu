@@ -88,7 +88,7 @@ class Login extends CI_Controller {
 		$message= "Your OTP For login to Mangalsetu Matrimony is-".$OTP.".Please do not share this OTP.";
 		$postdata = "sender_id=MSCONF&message=".$message."&mobile_no=".$number;
 		$curl = curl_init();
-
+ 
 		curl_setopt_array($curl, array(
 		CURLOPT_URL => "http://sms.mahalaxmiservice.com/api_v2/message/send",
 		CURLOPT_RETURNTRANSFER => true,
