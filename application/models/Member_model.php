@@ -176,13 +176,18 @@ class Member_model extends CI_Model
         }
     }
 
-    function get_listing($intrested_in){
-        $this->db->select('b.short_bio,b.age,b.image_1,a.id,a.firstname,a.lastname,a.email,a.gender,c.state,d.city');
+    function get_listing($searchText,$intrested_in){
+        $this->db->select('b.member_id,b.short_bio,b.age,b.image_1,a.id,a.firstname,a.lastname,a.email,a.gender,c.state,d.city');
         $this->db->from('tbl_member as a');
         $this->db->join('tbl_member_profile as b','b.member_id = a.member_id','left');
         $this->db->join('tbl_states as c','c.id = a.state');
         $this->db->join('tbl_cities as d','d.id = a.city');
-        $this->db->where('gender',$intrested_in);
+        if(!empty($searchText)) {
+            $likeCriteria = "(a.firstname  LIKE '%".$searchText."%'
+                            OR  d.city  LIKE '%".$searchText."%')";
+            $this->db->where($likeCriteria);
+        }
+        $this->db->where('a.gender',$intrested_in);
         $query = $this->db->get();
         $data = $query->result_array();
         
@@ -190,6 +195,85 @@ class Member_model extends CI_Model
             return $data;
         } else {
             return "0";
+        }
+    }
+
+    function get_favourate($searchText,$id){
+        $this->db->select('c.member_id,c.short_bio,c.age,c.image_1,b.id,b.firstname,b.lastname,
+        b.email,b.gender,d.state,e.city');
+        $this->db->from('tbl_favourate as a');
+        $this->db->join('tbl_member as b','b.member_id = a.liked_member','left');
+        $this->db->join('tbl_member_profile as c','c.member_id = b.member_id','left');
+        $this->db->join('tbl_states as d','d.id = b.state');
+        $this->db->join('tbl_cities as e','e.id = b.city');
+        if(!empty($searchText)) {
+            $likeCriteria = "(b.firstname  LIKE '%".$searchText."%'
+                            OR  e.city  LIKE '%".$searchText."%')";
+            $this->db->where($likeCriteria);
+        }
+        $this->db->where('a.member',$id);
+        $query = $this->db->get();
+        $data = $query->result_array();
+        
+        if(!empty($data)){
+            return $data;
+        } else {
+            return "0";
+        }
+    }
+
+    function add_fav_list($member_id,$id){
+        $data['member'] = $id;
+        $data['liked_member'] = $member_id;
+        $this->db->insert('tbl_favourate', $data);
+        $result = $this->db->insert_id();
+        if($result){
+            return true;
+        }else{
+            return;
+        }
+    }
+
+    function isFav($id,$memberid){
+        $this->db->select('id');
+        $this->db->where('member',$id);
+        $this->db->where('liked_member',$memberid);
+        $query = $this->db->get('tbl_favourate');
+        $data = $query->result_array();
+        
+        if(!empty($data)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function remove_fav_list($member_id,$id){
+        
+        $this->db->where('member', $id);
+        $this->db->where('liked_member', $member_id);
+        $this->db->delete('tbl_favourate');
+        
+        if($this->db->affected_rows()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function check_fav_list($id,$member_id=null){
+        $this->db->select('member,liked_member');
+        $this->db->where('member',$id);
+        if(!empty($member_id)){
+            $this->db->where('liked_member',$member_id);
+        }
+        $query = $this->db->get('tbl_favourate');
+        $data = $query->result_array();
+        
+        if(!empty($data)){
+            return $data;
+        } else {
+            return false;
         }
     }
 

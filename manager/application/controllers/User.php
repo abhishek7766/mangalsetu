@@ -649,7 +649,8 @@ class User extends BaseController
             echo(json_encode(array('status'=>'access')));
         }
         else
-        {            
+        {
+            
             $result = $this->user_model->deactiveAll();
             
             if ($result > 0) { echo(json_encode(array('status'=>TRUE))); }

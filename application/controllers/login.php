@@ -74,7 +74,7 @@ class Login extends CI_Controller {
             {
                 $response = array(
                     'status' => 'error',
-                    'message' => "Email or password mismatch"
+                    'message' => "Member with this number doesnot Exist."
                 );                
             }
         }

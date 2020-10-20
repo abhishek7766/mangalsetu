@@ -222,8 +222,15 @@ body{
 				<?php foreach($new_members as $member){?>
 				<div class="row mb-1" style="background: #fff;">
 					<div class="col-sm-4">
-					<img src="<?= base_url();?>assets/profile_img/<?=$member['image_1'];?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile"
-					style="width: 100%;border: 1px solid #c7c2be;" class="responsive rounded-circle"/>
+          <?php
+            if(!empty($member['image_1'])){
+              $img_url = $member['image_1'];
+            }else{
+              $img_url = 'default_user.png';
+            }
+          ?>
+            <div class="recentaddlist" style="background-image: url('<?= base_url();?>assets/profile_img/<?=$img_url;?>');background-size: cover;">
+            </div>
 					</div>
 					<div class="col-sm-8 profile_item-desc pt-3">
 						<h4>Name : <?=$member['firstname']." ".$member['lastname'];?></h4>

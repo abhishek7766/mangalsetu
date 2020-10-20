@@ -58,6 +58,13 @@ nav{
    height: 100%;
    margin: 0;
 }
+.recentaddlist{
+   width: 90%;
+   border-radius: 50% !important;
+   height: 100%;
+   overflow: hidden;
+   border: 1px solid #ff9180;
+}
 .tag-addon{
    background-color: #fff;
    border-top-left-radius: 25px;
@@ -152,6 +159,10 @@ nav{
 }
 .user_img img{
     height: inherit;
+}
+.favourate{
+   font-size: 28px !important;
+   color: red;
 }
 .anc{
     background-image: url(../img/anc.jpg);
@@ -355,7 +366,7 @@ background-color: #ffffff40;
    margin-top: 10px;
    color: #fff;
    font-weight: 500;
-   padding: 5px 25px 5px 52px;
+   padding: 5px 25px 5px 25px;
    margin-bottom: 10px;
 }
 footer{

@@ -18,9 +18,35 @@ Class Member extends MemberLib {
 
         $this->global['title'] = "MangalSetu : Dashboard";
         $this->global['profile_percent'] = $this->claculate_profile_per($this->id);
-        $this->global['listing'] = $this->member_model->get_listing($this->intrested_in);
+
+        $searchText = $this->security->xss_clean($this->input->post('searchText'));
+        $data['searchText'] = $searchText;
+        //print_r($searchText);die;
+        $listing = $this->member_model->get_listing($searchText,$this->intrested_in);
+        foreach($listing as $k => $list){
+            $listing[$k]['favourate'] = false;
+            if($this->member_model->isFav($this->id,$list['member_id'])){
+                $listing[$k]['favourate'] = true;
+            }
+        }
+        
+        $data['listing'] = $listing;
         $this->global['member_details'] = $this->member_model->get_member_profile($this->id);
-        $this->loadViews("dashboard", $this->global, NULL , NULL);
+        $this->loadViews("dashboard", $this->global, $data , NULL);
+    }
+
+    public function addFavourate(){
+        $member_id = $this->input->post('memberid');
+        if($this->member_model->check_fav_list($this->id,$member_id,)){
+            
+            $result = $this->member_model->remove_fav_list($member_id,$this->id);
+            echo(json_encode(array('status'=>FALSE)));
+
+        }else{
+
+            $result = $this->member_model->add_fav_list($member_id,$this->id);
+            echo(json_encode(array('status'=>TRUE)));
+        }
     }
 
     public function setting(){
@@ -35,7 +61,26 @@ Class Member extends MemberLib {
     public function favourate(){
         
         $this->is_profile_complete();
-        $this->global['title'] = "MangalSetu : Favourities";
+
+        $this->global['title'] = "MangalSetu : Favouraties";
+        $this->global['profile_percent'] = $this->claculate_profile_per($this->id);
+
+        $searchText = $this->security->xss_clean($this->input->post('searchText'));
+        $data['searchText'] = $searchText;
+        //print_r($searchText);die;
+        $listing = $this->member_model->get_favourate($searchText,$this->id);
+        if(!empty($listing)){
+            foreach($listing as $k => $list){
+                $listing[$k]['favourate'] = false;
+                if($this->member_model->isFav($this->id,$list['member_id'])){
+                    $listing[$k]['favourate'] = true;
+                }
+            }
+            
+            $data['listing'] = $listing;
+        }
+        $this->global['member_details'] = $this->member_model->get_member_profile($this->id);
+        $this->loadViews("favouraties.php", $this->global, $data , NULL);
     }
 
     public function profile(){

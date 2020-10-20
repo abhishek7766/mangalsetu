@@ -40,7 +40,7 @@
             <div class="heading">
                 <div class="row">
                     <div class="col-md-7">
-                        <h5>Matching Profiles</h5>
+                        <h5>Favourate Profiles</h5>
                     </div>
                     <div class="col-md-5">
                         <form class="form-inline" action="<?php echo base_url() ?>Member" method="POST" id="searchList">
@@ -52,7 +52,7 @@
             </div>
             <?php if(!empty($listing)){
                 foreach($listing as $list){?>
-            <div class="profileimg">
+            <div class="profileimg" id="col-<?=$list['member_id'];?>">
         		<div class="row">
                     <div class="col-md-4 text-center">
                         <img src="<?= base_url();?>assets/profile_img/<?=$list['image_1'];?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile" class="profile-circle img-responsive"/>
@@ -66,11 +66,11 @@
                 </div>
             </div>
             <?php }
-            }else{ ?>
-                <div class="alert alert-danger text-center" role="alert">
-                    You dont have any match.
-                </div>  
-            <?php } ?>
+        }else{ ?>
+            <div class="alert alert-danger text-center" role="alert">
+                You doesnot add any favourate profile.
+            </div>  
+        <?php } ?>
         </div>
     </div>
 
@@ -87,6 +87,7 @@ jQuery(document).ready(function(){
 		var memberid = $(this).data("memberid"),
 			hitURL = "<?php echo base_url('Member/addFavourate');?>",
 			currentRow = $(this);
+            row = $('#col-'+memberid);
 		
 		var confirmation = confirm("Are Sure to add this profile to your Favourities");
 		
@@ -105,7 +106,8 @@ jQuery(document).ready(function(){
                 }
 				else {
                     currentRow.removeClass('fa-heart'); 
-                    currentRow.addClass('fa-heart-o'); 
+                    currentRow.addClass('fa-heart-o');
+                    row.hide(); 
                     alert("Profile removed successfully"); 
                 }
 			});

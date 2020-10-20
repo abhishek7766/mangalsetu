@@ -188,6 +188,7 @@
                 data: change_phone.serialize(),
                 success: function(response){
                     if(response.status == 'success') {
+                        $("#phone").prop('disabled', true);
                         $('#otp_block').show();
                         $('#send_otp').hide();
                         $('#login_btn').show();
@@ -210,12 +211,14 @@
         $("#login_btn").on('click', function(e) {
             e.preventDefault();
 
-            var change_phone = $("#login_form");
+            
+            var phone= $('#phone').val();
+            var otp = $('#otp').val();
 
             $.ajax({
                 url: '<?= base_url('Login/verify_otp');?>',
                 type: 'post',
-                data: change_phone.serialize(),
+                data: {phone : phone,otp : otp},
                 success: function(response){
                     if(response.status == 'success') {
                         window.location.href = "<?php echo base_url('Member'); ?>"
