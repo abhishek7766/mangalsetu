@@ -49,7 +49,7 @@ class Registration extends CI_Controller {
         
         $this->form_validation->set_rules('firstname', 'Firstname', 'required');
         $this->form_validation->set_rules('lastname','Lastname','required');
-        $this->form_validation->set_rules('email','Email','required|is_unique[tbl_member.email]',);
+        $this->form_validation->set_rules('email','Email','required|callback_is_email_unique',);
         $this->form_validation->set_rules('dob','dob','required');
         $this->form_validation->set_rules('state','State','required');
         $this->form_validation->set_rules('city','city','required');
@@ -111,6 +111,15 @@ class Registration extends CI_Controller {
         header("Content-Type: application/json");
         echo json_encode(array('status' => $status, 'message' => $message));
         exit;
+    }
+
+    public function is_email_unique($email){
+        if($this->member_model->is_email_unique($email)){
+            $this->form_validation->set_message('is_email_unique', 'The {field} already exist!');
+            return false;
+        }else{
+            return true;
+        }
     }
 
     public function get_MemberId(){

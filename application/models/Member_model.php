@@ -2,11 +2,21 @@
 
 class Member_model extends CI_Model
 {
-    /**
-     * This function used to insert reset password data
-     * @param {array} $data : This is reset password data
-     * @return {boolean} $result : TRUE/FALSE
-     */
+    function is_email_unique($email){
+        $this->db->select('email');
+        $this->db->where('email',$email);
+        $this->db->where('isdeleted',0);
+        $query = $this->db->get('tbl_member');
+        
+        $user = $query->row();
+        
+        if(!empty($user)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function creat_new_member($data)
     {
         $result = $this->db->insert('tbl_member', $data);

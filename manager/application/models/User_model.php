@@ -2,6 +2,21 @@
 
 class User_model extends CI_Model
 {
+    function is_email_unique($email){
+        $this->db->select('email');
+        $this->db->where('email',$email);
+        $this->db->where('isdeleted',0);
+        $query = $this->db->get('tbl_member');
+        
+        $user = $query->row();
+        
+        if(!empty($user)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     function fetch_states(){
         $this->db->select('id,state');
         $query = $this->db->get('tbl_states');
@@ -108,11 +123,22 @@ class User_model extends CI_Model
             return false;
         }
     }
-    /**
-     * This function is used to get the user listing count
-     * @param string $searchText : This is optional search text
-     * @return number $count : This is row count
-     */
+    
+    function announceListingCount($searchText = '')
+    {
+        $this->db->select('id,title,on_date,from_time,to_time,active');
+        $this->db->from('tbl_announcement');
+        if(!empty($searchText)) {
+            $likeCriteria = "(title  LIKE '%".$searchText."%'
+                            OR  on_date  LIKE '%".$searchText."%')";
+            $this->db->where($likeCriteria);
+        }
+        $this->db->where('isDeleted', 0);
+        $query = $this->db->get();
+        
+        return $query->num_rows();
+    }
+
     function userListingCount($searchText = '')
     {
         $this->db->select('BaseTbl.userId, BaseTbl.email, BaseTbl.name, BaseTbl.mobile, BaseTbl.createdDtm, Role.role');
@@ -131,13 +157,24 @@ class User_model extends CI_Model
         return $query->num_rows();
     }
 
-    /**
-     * This function is used to get the user listing count
-     * @param string $searchText : This is optional search text
-     * @param number $page : This is pagination offset
-     * @param number $segment : This is pagination limit
-     * @return array $result : This is result
-     */
+    function announcements($searchText = '', $page, $segment)
+    {
+        $this->db->select('id,title,on_date,from_time,to_time,active');
+        $this->db->from('tbl_announcement');
+        if(!empty($searchText)) {
+            $likeCriteria = "(title  LIKE '%".$searchText."%'
+                            OR  on_date  LIKE '%".$searchText."%')";
+            $this->db->where($likeCriteria);
+        }
+        $this->db->where('isDeleted', 0);
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit($page, $segment);
+        $query = $this->db->get();
+        
+        $result = $query->result();        
+        return $result;
+    }
+
     function userListing($searchText = '', $page, $segment)
     {
         $this->db->select('BaseTbl.userId, BaseTbl.email, BaseTbl.name, BaseTbl.mobile, BaseTbl.createdDtm, Role.role');
@@ -234,11 +271,18 @@ class User_model extends CI_Model
         return $query->result();
     }
     
-    
-    /**
-     * This function is used to add new user to system
-     * @return number $insert_id : This is last inserted id
-     */
+    function addAnnouncement($userInfo)
+    {
+        $this->db->trans_start();
+        $this->db->insert('tbl_announcement', $userInfo);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
+
     function addNewUser($userInfo)
     {
         $this->db->trans_start();
@@ -313,10 +357,39 @@ class User_model extends CI_Model
         return $this->db->affected_rows();
     }
 
+    function deactiveAll()
+    {
+        $data['active'] = 0;
+        $this->db->update('tbl_announcement', $data);
+        return $this->db->affected_rows();
+        
+    }
+
+    function activeAnnouncement($id)
+    {
+        $data['active'] = 0;
+        $this->db->update('tbl_announcement', $data);
+        
+        
+        $data['active'] = 1;
+        $this->db->where('id',$id);
+        $this->db->update('tbl_announcement', $data);
+        return $this->db->affected_rows();
+        
+    }
+
     function deleteMember($memberId, $userInfo)
     {
         $this->db->where('member_id ', $memberId);
         $this->db->update('tbl_member', $userInfo);
+        
+        return $this->db->affected_rows();
+    }
+
+    function deleteAnnouncement($id, $userInfo)
+    {
+        $this->db->where('id ', $id);
+        $this->db->update('tbl_announcement', $userInfo);
         
         return $this->db->affected_rows();
     }

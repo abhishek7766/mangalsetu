@@ -114,6 +114,12 @@
             {
             ?>
             <li>
+              <a href="<?php echo base_url(); ?>Announcement">
+                <i class="fa fa-bullhorn"></i>
+                <span>Announcement</span>
+              </a>
+            </li>
+            <li>
               <a href="<?php echo base_url(); ?>userListing">
                 <i class="fa fa-users"></i>
                 <span>Users</span>

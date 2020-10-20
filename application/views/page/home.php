@@ -89,7 +89,7 @@ body{
   <div class="section" >
     <div class="anc text-center" role="alert">
 	    <div class="main-text">
-        <h3><?=date("d M Y", strtotime($announcement->date));?><sup><?=date("g a", strtotime($announcement->from_time));?> TO <?=date("g a", strtotime($announcement->to_time));?></sup></h3>
+        <h3><?=date("d M Y", strtotime($announcement->on_date));?><sup><?=date("g a", strtotime($announcement->from_time));?> TO <?=date("g a", strtotime($announcement->to_time));?></sup></h3>
         <p><h2><?= $announcement->title;?></h2></p>      
         <hr>
 		    <p>FIRST TIME IN INDIA</h3></p>

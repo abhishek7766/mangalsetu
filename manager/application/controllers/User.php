@@ -39,6 +39,92 @@ class User extends BaseController
         echo $this->user_model->fetch_city($this->input->post('state_id'));
         }
     }
+
+    function announcement()
+    {
+        if($this->isAdmin() == TRUE)
+        {
+            $this->loadThis();
+        }
+        else
+        {        
+            $searchText = $this->security->xss_clean($this->input->post('searchText'));
+            $data['searchText'] = $searchText;
+            
+            $this->load->library('pagination');
+            
+            $count = $this->user_model->announceListingCount($searchText);
+
+			$returns = $this->paginationCompress ( "announcement/", $count, 10 );
+            
+            $data['announceRecords'] = $this->user_model->announcements($searchText, $returns["page"], $returns["segment"]);
+            
+            $this->global['pageTitle'] = 'MangalSetu : Announcements';
+            
+            $this->loadViews("announcement", $this->global, $data, NULL);
+        }
+    }
+
+    function newAnnouncement()
+    {
+        if($this->isAdmin() == TRUE)
+        {
+            $this->loadThis();
+        }
+        else
+        {
+            $this->load->model('user_model');
+            $data['roles'] = $this->user_model->getUserRoles();
+            
+            $this->global['pageTitle'] = 'MangalSetu : Add New Announcement';
+
+            $this->loadViews("newAnnouncement", $this->global, $data, NULL);
+        }
+    }
+
+    function addAnnouncement()
+    {
+        if($this->isAdmin() == TRUE)
+        {
+            $this->loadThis();
+        }
+        else
+        {
+            $this->load->library('form_validation');
+            
+            $this->form_validation->set_rules('title','Title','trim|required');
+            $this->form_validation->set_rules('on_date','Date','trim|required');
+            $this->form_validation->set_rules('from_time','From Time','required');
+            $this->form_validation->set_rules('to_time','To Time','trim|required');
+            
+            if($this->form_validation->run() == FALSE)
+            {
+                $this->newAnnouncement();
+            }
+            else
+            {
+                $data['title']      = $this->input->post('title');
+                $data['on_date']       = $this->input->post('on_date');
+                $data['from_time']  = $this->input->post('from_time');
+                $data['to_time']    = $this->input->post('to_time');
+                $data['created_on'] = date('Y-m-d H:i:s');
+
+                    $this->load->model('user_model');
+                $result = $this->user_model->addAnnouncement($data);
+                
+                if($result > 0)
+                {
+                    $this->session->set_flashdata('success', 'New Announcement created successfully');
+                }
+                else
+                {
+                    $this->session->set_flashdata('error', 'Announcement creation failed');
+                }
+                
+                redirect('newAnnouncement');
+            }
+        }
+    }
     /**
      * This function is used to load the user list
      */
@@ -185,7 +271,7 @@ class User extends BaseController
         $this->form_validation->set_rules('state','State','trim|required');
         $this->form_validation->set_rules('city','City','trim|required');
         $this->form_validation->set_rules('phone','Phone','trim|required|is_unique[tbl_member.phone]');
-        $this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[tbl_member.email]');
+        $this->form_validation->set_rules('email','Email','trim|required|valid_email|callback_is_email_unique');
         $this->form_validation->set_rules('intrested_in','Intrested In','trim|required');
         
         if($this->form_validation->run() == FALSE)
@@ -227,6 +313,15 @@ class User extends BaseController
             }
             
             redirect('dashboard');
+        }
+    }
+
+    public function is_email_unique($email){
+        if($this->user_model->is_email_unique($email)){
+            $this->form_validation->set_message('is_email_unique', 'The {field} already exist!');
+            return false;
+        }else{
+            return true;
         }
     }
 
@@ -541,6 +636,56 @@ class User extends BaseController
             $userInfo = array('isDeleted'=>1,'updated_on'=>date('Y-m-d H:i:s'));
             
             $result = $this->user_model->deleteMember($memberId, $userInfo);
+            
+            if ($result > 0) { echo(json_encode(array('status'=>TRUE))); }
+            else { echo(json_encode(array('status'=>FALSE))); }
+        }
+    }
+
+    function deactiveAll()
+    {
+        if($this->isAdmin() == TRUE)
+        {
+            echo(json_encode(array('status'=>'access')));
+        }
+        else
+        {            
+            $result = $this->user_model->deactiveAll();
+            
+            if ($result > 0) { echo(json_encode(array('status'=>TRUE))); }
+            else { echo(json_encode(array('status'=>FALSE))); }
+        }
+    }
+
+    function activeAnnouncement()
+    {
+        if($this->isAdmin() == TRUE)
+        {
+            echo(json_encode(array('status'=>'access')));
+        }
+        else
+        {
+            $id = $this->input->post('id');
+            
+            $result = $this->user_model->activeAnnouncement($id);
+            
+            if ($result > 0) { echo(json_encode(array('status'=>TRUE))); }
+            else { echo(json_encode(array('status'=>FALSE))); }
+        }
+    }
+
+    function deleteAnnouncement()
+    {
+        if($this->isAdmin() == TRUE)
+        {
+            echo(json_encode(array('status'=>'access')));
+        }
+        else
+        {
+            $id = $this->input->post('id');
+            $userInfo = array('isDeleted'=>1);
+            
+            $result = $this->user_model->deleteAnnouncement($id, $userInfo);
             
             if ($result > 0) { echo(json_encode(array('status'=>TRUE))); }
             else { echo(json_encode(array('status'=>FALSE))); }
