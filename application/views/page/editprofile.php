@@ -132,7 +132,7 @@
           </div>
           <div class="col-md-4 form-inline">
             <button class="btn btn-info btn-block" type="button" id="submit_edit">Save</button>
-            <a href="<?= base_url('Payment');?>" class="btn btn-success btn-block">Proceed To Payment</a>
+<?php if(!$is_prime){?><a href="<?= base_url('Payment');?>" class="btn btn-success btn-block">Proceed To Payment</a><?php } ?>
           </div>
         </div>
       </form>  

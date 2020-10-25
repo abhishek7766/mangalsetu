@@ -14,7 +14,7 @@ Class Member extends MemberLib {
 
     public function index(){
 
-        $this->is_profile_complete();
+        $this->is_payment_complete();
 
         $this->global['title'] = "MangalSetu : Dashboard";
         $this->global['profile_percent'] = $this->claculate_profile_per($this->id);
@@ -51,7 +51,7 @@ Class Member extends MemberLib {
 
     public function setting(){
         
-        $this->is_profile_complete();
+        $this->is_payment_complete();
 
         $this->global['title'] = "MangalSetu : Setting";
         
@@ -60,7 +60,7 @@ Class Member extends MemberLib {
 
     public function favourate(){
         
-        $this->is_profile_complete();
+        $this->is_payment_complete();
 
         $this->global['title'] = "MangalSetu : Favouraties";
         $this->global['profile_percent'] = $this->claculate_profile_per($this->id);
@@ -85,7 +85,7 @@ Class Member extends MemberLib {
 
     public function profile(){
         
-        $this->is_profile_complete();
+        $this->is_payment_complete();
         $this->global['title'] = "MangalSetu : Profile";
         $this->global['profile_percent'] = $this->claculate_profile_per($this->id);
         $this->global['member_details'] = $this->member_model->get_member_profile($this->id);
@@ -96,6 +96,7 @@ Class Member extends MemberLib {
     public function EditProfile(){
         $this->global['title'] = "MangalSetu : Edit Profile";
         $this->global['member_details'] = $this->member_model->get_member_profile($this->id);
+        $this->global['is_prime'] = $this->member_model->check_payment($this->id);
         
         $this->loadViews("editprofile", $this->global, NULL , NULL);
     }
@@ -335,9 +336,11 @@ Class Member extends MemberLib {
 
     }
 
-    public function is_profile_complete(){
-        if(!$this->member_model->check_profile_per($this->id)){
+    public function is_payment_complete(){
+        if(!$this->member_model->check_payment($this->id)){
             redirect('Member/EditProfile'); 
+        }else{
+            return false;
         }
     }
 
