@@ -131,12 +131,12 @@
                 <span>Members</span>
               </a>
             </li>
-            <li>
+            <!--<li>
               <a href="<?php echo base_url(); ?>reports" >
                 <i class="fa fa-files-o"></i>
                 <span>Reports</span>
               </a>
-            </li>
+            </li>-->
             <?php
             }
             if($role ==3){

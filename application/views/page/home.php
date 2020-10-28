@@ -197,7 +197,7 @@ body{
 	      <tr >
         <td>Assam</td>
         <td>10</td>
-        <td>Karnatka</td>
+        <td>Mizorma</td>
 		<td>1.5</td>
 		<td>Arunachal</td>
 		<td>1</td>
@@ -205,8 +205,8 @@ body{
 	      <tr >
         <td>Nagland</td>
         <td>2</td>
-        <td>Karnatka</td>
-		<td>7</td>
+        <td>Manipur</td>
+		<td>9</td>
 		<td>Meghalay, Tripura</td>
 		<td>11</td>
       </tr>

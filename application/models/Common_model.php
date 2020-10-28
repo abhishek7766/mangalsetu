@@ -23,7 +23,7 @@ class Common_model extends CI_Model
         $this->db->JOIN('tbl_member_profile as b','a.member_id = b.member_id');
         $this->db->JOIN('tbl_cities as c','a.city = c.id');
         $this->db->order_by('a.id', 'DESC');
-        $this->db->limit('10');
+        //$this->db->limit('10');
         $querry = $this->db->get();
         $data = $querry->result_array();
 

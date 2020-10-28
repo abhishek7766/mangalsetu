@@ -291,6 +291,9 @@ background-color: #ffffff40;
    padding: 10px;
    overflow-x: hidden;
 }
+.scrolling-box::-webkit-scrollbar {
+   display: none;
+}
 * {
  scrollbar-width: thin;
  scrollbar-color: blue orange;

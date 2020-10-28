@@ -271,7 +271,6 @@ class User extends BaseController
         $this->form_validation->set_rules('state','State','trim|required');
         $this->form_validation->set_rules('city','City','trim|required');
         $this->form_validation->set_rules('phone','Phone','trim|required|is_unique[tbl_member.phone]');
-        $this->form_validation->set_rules('email','Email','trim|required|valid_email|callback_is_email_unique');
         $this->form_validation->set_rules('intrested_in','Intrested In','trim|required');
         
         if($this->form_validation->run() == FALSE)
@@ -298,12 +297,13 @@ class User extends BaseController
             
             if($this->user_model->creat_new_member($data))
             {
-                
-                $data1["email"] = $data['email'];
-                $data1["passcode"] = $data['email_verify'];
+                if($data['email'] != ""){
+                    $data1["email"] = $data['email'];
+                    $data1["passcode"] = $data['email_verify'];
 
-                $welcomeEmail = welcomeEmail($data1); 
-                $verifyEmail = verifyEmail($data1); 
+                    $welcomeEmail = welcomeEmail($data1); 
+                    $verifyEmail = verifyEmail($data1);
+                } 
 
                 $this->session->set_flashdata('success', 'New User created successfully');
             }
