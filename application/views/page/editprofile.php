@@ -121,6 +121,20 @@
               <input type="time" id="bith_time" name="bith_time" class="form-control " value="<?php echo $member_details->bith_time;?>">
             </div>
             <div class="col-md-4">
+              <label for="eduction" class="in">Eduction:</label>
+              <input type="text" id="eduction" name="eduction" class="form-control " value="<?php echo $member_details->education;?>">
+            </div>          
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+              <label for="height" class="in">Height(in cm)</label> 
+              <input type="text" id="height" name="height" class="form-control " value="<?php echo $member_details->height;?>">
+            </div>
+            <div class="col-md-4">
+              <label for="ctc" class="in">CTC(annual in Lakhs)</label> 
+              <input type="text" id="ctc" name="ctc" class="form-control " value="<?php echo $member_details->ctc;?>">
+            </div>
+            <div class="col-md-4">
               <label for="address" class="in">Short Bio:</label> 
               <textarea type="textarea" style="resize: none;" id="address" name="short_bio" class="form-control " value="<?php echo $member_details->short_bio;?>"></textarea>
             </div>          
@@ -132,7 +146,9 @@
           </div>
           <div class="col-md-4 form-inline">
             <button class="btn btn-info btn-block" type="button" id="submit_edit">Save</button>
-<?php if(!$is_prime){?><a href="<?= base_url('Payment');?>" class="btn btn-success btn-block">Proceed To Payment</a><?php } ?>
+           <!-- 
+             <?php if(!$is_prime){?><a href="<?= base_url('Payment');?>" class="btn btn-success btn-block">Proceed To Payment</a><?php } ?>
+          -->
           </div>
         </div>
       </form>  

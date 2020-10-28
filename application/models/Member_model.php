@@ -177,7 +177,7 @@ class Member_model extends CI_Model
     }
 
     function get_listing($searchText,$intrested_in){
-        $this->db->select('b.member_id,b.short_bio,b.age,b.image_1,a.id,a.firstname,a.lastname,a.email,a.gender,c.state,d.city');
+        $this->db->select('b.member_id,b.education,b.ctc,b.age,b.height,b.image_1,b.occupation,b.gotra,a.id,a.firstname,a.lastname,a.gender,c.state,d.city');
         $this->db->from('tbl_member as a');
         $this->db->join('tbl_member_profile as b','b.member_id = a.member_id','left');
         $this->db->join('tbl_states as c','c.id = a.state');
@@ -200,7 +200,7 @@ class Member_model extends CI_Model
 
     function get_favourate($searchText,$id){
         $this->db->select('c.member_id,c.short_bio,c.age,c.image_1,b.id,b.firstname,b.lastname,
-        b.email,b.gender,d.state,e.city');
+        b.email,b.gender,d.state,e.city,c.education,c.height,c.ctc,c.occupation');
         $this->db->from('tbl_favourate as a');
         $this->db->join('tbl_member as b','b.member_id = a.liked_member','left');
         $this->db->join('tbl_member_profile as c','c.member_id = b.member_id','left');

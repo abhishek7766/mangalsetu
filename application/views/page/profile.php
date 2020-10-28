@@ -86,7 +86,11 @@
 }
 </style>
 <div class="container mt-5">
-     
+    <?php if($member_details->payment_status != 1){ ?>
+        <div class="alert alert-danger text-center" role="alert">
+            You are not a Prime Member. Please <a href="<?= base_url('Payment');?>">Proceed To Payment</a> to become a Prime Member or Contact to customer Support.
+        </div>    
+    <?php }?>
   <div class="row">
     <div class="col-md-4">         
         <div class="login_box text-center">
@@ -218,13 +222,13 @@
               <!-- col-sm-10 --> 
             </div>
           </div>
-		    <div class="col-sm-8">
+		    <div class="col-sm-6">
             <div class="row mgbt-xs-0">
               <label class="col-xs-5 control-label">Gotra :</label>
               <div class="col-xs-7 controls"><?=($member_details->gotra =="")?"--":$member_details->gotra;?></div>
               <!-- col-sm-10 --> 
             </div>
-          </div>
+        </div>
 		     <div class="col-sm-6">
             <div class="row mgbt-xs-0">
               <label class="col-xs-5 control-label">No. of Sister :</label>
@@ -316,15 +320,42 @@
               <!-- col-sm-10 --> 
             </div>
           </div>
-		     <div class="col-sm-6">
+		      <div class="col-sm-6">
             <div class="row mgbt-xs-0">
               <label class="col-xs-5 control-label">Birth Time :</label>
               <div class="col-xs-7 controls"><?=($member_details->bith_time =="00:00:00")?"--":$member_details->bith_time;?></div>
               <!-- col-sm-10 --> 
             </div>
           </div>
+          <div class="col-sm-6">
+            <div class="row mgbt-xs-0">
+              <label class="col-xs-5 control-label">Education :</label>
+              <div class="col-xs-7 controls"><?=($member_details->education =="")?"--":$member_details->education;?></div>
+              <!-- col-sm-10 --> 
+            </div>
+          </div>
+          <div class="col-sm-6">
+              <div class="row mgbt-xs-0">
+                <label class="col-xs-5 control-label">CTC (in Lakhs/annum) :</label>
+                <div class="col-xs-7 controls"><?=($member_details->ctc =="")?"--":$member_details->ctc;?></div>
+                <!-- col-sm-10 --> 
+              </div>
+          </div>
+          <div class="col-sm-6">
+              <div class="row mgbt-xs-0">
+                <label class="col-xs-5 control-label">Height (in cm) :</label>
+                <div class="col-xs-7 controls"><?=($member_details->height =="")?"--":$member_details->height;?></div>
+                <!-- col-sm-10 --> 
+              </div>
+          </div>
         </div>
       </div>
+      <?php if($member_details->short_bio != ""){?>
+      <div class="profileimg">
+        <h4>Short Bio :</h4>
+        <span><?=$member_details->short_bio;?></span>
+      </div>
+      <?php }?>
 
       <div class="heading" style="height: 50px !important;">
         <h5 class="pull-left">User Profiles</h5>

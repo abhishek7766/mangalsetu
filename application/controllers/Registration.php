@@ -49,7 +49,7 @@ class Registration extends CI_Controller {
         
         $this->form_validation->set_rules('firstname', 'Firstname', 'required');
         $this->form_validation->set_rules('lastname','Lastname','required');
-        $this->form_validation->set_rules('email','Email','required|callback_is_email_unique',);
+        $this->form_validation->set_rules('email','Email','',);
         $this->form_validation->set_rules('dob','dob','required');
         $this->form_validation->set_rules('state','State','required');
         $this->form_validation->set_rules('city','city','required');

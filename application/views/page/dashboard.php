@@ -1,8 +1,8 @@
 <div class="container mt-5">
     
-    <?php if($member_details->is_email_verified != 1){ ?>
+<?php if($member_details->payment_status != 1){ ?>
         <div class="alert alert-danger text-center" role="alert">
-            You email is not verified. Plese visit your mail box for email verification.
+            You are not a Prime Member. Please <a href="<?= base_url('Payment');?>">Proceed To Payment</a> to become a Prime Member or Contact to customer Support.
         </div>    
     <?php }?>
     
@@ -50,18 +50,44 @@
                     </div>
                 </div>
             </div>
-            <?php if(!empty($listing)){
+            
+            <?php 
+            //echo "<prE>";print_r($listing);die;
+            if(!empty($listing)){
                 foreach($listing as $list){?>
             <div class="profileimg">
         		<div class="row">
                     <div class="col-md-4 text-center">
-                        <img src="<?= base_url();?>assets/profile_img/<?=$list['image_1'];?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile" class="profile-circle img-responsive"/>
+                    <?php
+                        if(!empty($list['image_1'])){
+                        $img_url = $list['image_1'];
+                        }else{
+                        $img_url = 'default_user.png';
+                        }
+                    ?>
+                        <div class="recentaddlist" style="background-image: url('<?= base_url();?>assets/profile_img/<?=$img_url;?>');background-size: cover;">
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <div class="panel-heading">
                             <h3><?=$list['firstname']." ".$list['lastname'];?><span style="font-size: 18px;" class="pt-2 text-right pull-right">City : <?=$list['city'];?>&nbsp;&nbsp;<i id="favourate" data-memberid=<?=$list['member_id'];?>  class="fa <?php echo ($list['favourate'])?'fa-heart' : 'fa-heart-o';?> favourate" aria-hidden="true"></i></span></h3>
                         </div>
-                        <span><b>Bio:</b><?=$list['short_bio'];?></span>
+                        <table class="table table-borderless" style="color: #fff;">
+                            <tbody>
+                                <tr>
+                                <td>Age :</td>
+                                <td><?php echo ($list['age'] != 0)?$list['age']:"-";?></td>
+                                <td>Education :</td>
+                                <td><?php echo ($list['education'] != "")?$list['education']:"-";?></td>
+                                </tr>
+                                <tr>
+                                <td>Occupation :</td>
+                                <td><?php echo ($list['occupation'] != "")?$list['occupation']:"-";?></td>
+                                <td>CTC (Lakhs/annum) :</td>
+                                <td><?php echo ($list['ctc'] != 0)?$list['ctc']:"-";?></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

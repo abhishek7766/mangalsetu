@@ -1,8 +1,8 @@
 <div class="container mt-5">
     
-    <?php if($member_details->is_email_verified != 1){ ?>
+<?php if($member_details->payment_status != 1){ ?>
         <div class="alert alert-danger text-center" role="alert">
-            You email is not verified. Plese visit your mail box for email verification.
+            You are not a Prime Member. Please <a href="<?= base_url('Payment');?>">Proceed To Payment</a> to become a Prime Member or Contact to customer Support.
         </div>    
     <?php }?>
     
@@ -61,7 +61,22 @@
                         <div class="panel-heading">
                             <h3><?=$list['firstname']." ".$list['lastname'];?><span style="font-size: 18px;" class="pt-2 text-right pull-right">City : <?=$list['city'];?>&nbsp;&nbsp;<i id="favourate" data-memberid=<?=$list['member_id'];?>  class="fa <?php echo ($list['favourate'])?'fa-heart' : 'fa-heart-o';?> favourate" aria-hidden="true"></i></span></h3>
                         </div>
-                        <span><b>Bio:</b><?=$list['short_bio'];?></span>
+                        <table class="table table-borderless" style="color: #fff;">
+                            <tbody>
+                                <tr>
+                                <td>Age :</td>
+                                <td><?php echo ($list['age'] != 0)?$list['age']:"-";?></td>
+                                <td>Education :</td>
+                                <td><?php echo ($list['education'] != "")?$list['education']:"-";?></td>
+                                </tr>
+                                <tr>
+                                <td>Occupation :</td>
+                                <td><?php echo ($list['occupation'] != "")?$list['occupation']:"-";?></td>
+                                <td>CTC (Lakhs/annum) :</td>
+                                <td><?php echo ($list['ctc'] != 0)?$list['ctc']:"-";?></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
