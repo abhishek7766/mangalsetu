@@ -178,6 +178,7 @@ class Member_model extends CI_Model
 
     function get_listing($searchText,$intrested_in){
         $this->db->select('b.member_id,b.education,b.ctc,b.age,b.height,b.image_1,b.occupation,b.gotra,a.id,a.firstname,a.lastname,a.gender,c.state,d.city');
+        $this->db->where('a.isDeleted',0);
         $this->db->from('tbl_member as a');
         $this->db->join('tbl_member_profile as b','b.member_id = a.member_id','left');
         $this->db->join('tbl_states as c','c.id = a.state');
