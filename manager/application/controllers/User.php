@@ -279,8 +279,8 @@ class User extends BaseController
         }
         else
         {
-            $data['firstname']      = $this->input->post('firstname');
-            $data['lastname']       = $this->input->post('lastname');
+            $data['firstname']      = ucfirst($this->input->post('firstname'));
+            $data['lastname']       = ucfirst($this->input->post('lastname'));
             $data['member_id']      = $this->get_memberID();
             $data['phone']          = $this->input->post('phone');
             $data['dob']            = $this->input->post('dob');
@@ -289,7 +289,7 @@ class User extends BaseController
             $data['city']           = $this->input->post('city');
             $data['intrested_in']   = $this->input->post('intrested_in');
             $data['refrenceid']     = $this->session->userdata('userId');
-            $data['email']          = $this->input->post('email');
+            $data['email']          = strtolower($this->input->post('email'));
             $data['roleid']         = "4";
             $data['email_verify']   = md5(rand());
             $data['phone_verify']   = mt_rand(1000, 9999);

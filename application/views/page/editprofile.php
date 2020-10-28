@@ -163,7 +163,20 @@
           </div>
           <div class="profileimg">
             <div class="row">
-              <div class="col-md-4">
+            <div class="col-md-3">
+                <div class="thumbnail">
+                  <img src="<?= base_url();?>assets/profile_img/<?=$member_details->image_1;?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile" style="width:100%"/>
+                  <div class="caption">
+                  <form class="uploadForm" action="" method="post">
+                    <label>Upload Image File:(Sholuld be Profile Picture)</label><br/>
+                    <input type="hidden" name="type" value="image_1">
+                    <input name="image" type="file" class="form-control-file" accept="image/*" />
+                    <input type="submit" value="Upload" class="btn btn-success" />
+                  </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
                 <div class="thumbnail">
                   <img src="<?= base_url();?>assets/profile_img/<?=$member_details->image_2;?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile" style="width:100%"/>
                   <div class="caption">
@@ -176,7 +189,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="thumbnail">
                   <img src="<?= base_url();?>assets/profile_img/<?=$member_details->image_3;?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile" style="width:100%"/>
                     <div class="caption">
@@ -189,7 +202,7 @@
                     </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="<?= base_url();?>assets/profile_img/<?=$member_details->image_4;?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile" style="width:100%"/>
                     <div class="caption">

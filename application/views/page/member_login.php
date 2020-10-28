@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="assets/css/style.css">
 
   <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/img/ms_fevicon.ico" type="image/x-icon">
-    <link rel="icon" href="<?php echo base_url(); ?>assets/img/ms_fevicon.ico" type="image/x-icon">
+<link rel="icon" href="<?php echo base_url(); ?>assets/img/ms_fevicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -57,6 +58,7 @@
      padding: 2%;
      border-radius: 1%;
      opacity: 0.8;
+     text-align: center !important;
  }
 
  .xyz {
@@ -128,8 +130,9 @@
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="abc">
+                <a href="<?= base_url();?>"><i class="fa fa-home" aria-hidden="true"></i> Back to Home</a>
                 <form id="login_form" action="" method="POST">
-                    <p class="h4 text-left">Login to continue</p>
+                    <p class="h4">Login to continue</p>
                     <hr></hr>
                     <!-- Email --> 
                     <label for="phone" class="in">Mobile Number</label> 
@@ -151,6 +154,7 @@
                     <button class="btn btn-info btn-block" type="button" id="send_otp" >SENT OTP</button>
                     <button class="btn btn-info btn-block" style="display: none;" type="button" id="login_btn" >LOGIN</button>
                 </form>
+                <a href="<?= base_url('Registration');?>">Not a Member Yet?</a>
                 </div>
             </div>
         </div>

@@ -17,10 +17,11 @@ class Common_model extends CI_Model
     }
 
     function getRecentMembers(){
-        $this->db->select("a.firstname,a.lastname,c.city,b.image_1");
+        $this->db->select("a.member_id,a.firstname,a.lastname,c.city,b.image_1");
         $this->db->from('tbl_member as a');
-		$this->db->where('isDeleted',0);
+		$this->db->where('a.isDeleted',0);
         $this->db->JOIN('tbl_member_profile as b','a.member_id = b.member_id');
+		$this->db->where('b.image_1 !=',' ');
         $this->db->JOIN('tbl_cities as c','a.city = c.id');
         $this->db->order_by('a.id', 'DESC');
         //$this->db->limit('10');

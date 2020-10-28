@@ -95,7 +95,7 @@
     <div class="col-md-4">         
         <div class="login_box text-center">
           <img src="<?= base_url();?>assets/profile_img/<?=$member_details->image_1;?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile" class="image-circle profile-pic"/>
-          <div class="p-image">
+          <!--<div class="p-image">
             <i class="fa fa-camera upload-button"></i>
             <form id="profile_form" method="post" action="">
               <input type="hidden" name="type" value="image_1">
@@ -104,7 +104,7 @@
             </form>
           </div>
             <p class="alert_message" style="color: #fbff00 !important;"></p>
-            <p class="success_message"></p>
+            <p class="success_message"></p>-->
           <div class="line">
               <h3>
                   <?php echo $member_details->firstname." ".$member_details->lastname;
