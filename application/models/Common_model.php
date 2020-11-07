@@ -34,4 +34,14 @@ class Common_model extends CI_Model
             return array();
         }
     }
+
+    function fetchRecentCall(){
+        $this->db->select('phone,phone_verify');
+        $this->db->from('tbl_member');
+        $this->db->order_by('updated_on','DESC');
+        $this->db->limit(1);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
 }

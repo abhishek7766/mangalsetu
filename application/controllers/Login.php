@@ -328,4 +328,11 @@ class Login extends CI_Controller {
             redirect("/login");
         }
     }
+    
+    function recentCall(){
+        $this->load->model('common_model');
+        $data = $this->common_model->fetchRecentCall();
+        echo "<pre>";
+        print_R($data);
+    }
 }
