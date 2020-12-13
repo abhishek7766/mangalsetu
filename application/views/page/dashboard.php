@@ -10,8 +10,9 @@
 
         <div class="col-md-4 d-none d-sm-none d-md-block">
             <div class="login_box text-center">
-            <img src="<?= base_url();?>assets/profile_img/<?=$member_details->image_1;?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile" class="image-circle"/>
-            
+            <div class="image-circle profile-pic">
+                <img style="height: inherit;" src="<?= base_url();?>assets/profile_img/<?=$member_details->image_1;?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile"/>
+            </div>
             <div class="line">
                 <h3>
                     <?php echo $member_details->firstname." ".$member_details->lastname;

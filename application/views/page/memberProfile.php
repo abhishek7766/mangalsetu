@@ -1,4 +1,36 @@
-<style>
+<?php
+$member_details->email = "XXXXXX@XXX.com";
+$member_details->phone = "+91-XXXXXXXXXX";
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><?php echo $title;?></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="<?= base_url();?>assets/profile_img/<?=$member_details->image_1;?>" />
+  <meta property="og:title" content="<?php echo $member_details->firstname." ".$member_details->lastname;?>" />
+  <meta property="og:image:secure_url" content="<?= base_url();?>assets/profile_img/<?=$member_details->image_1;?>" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="400" />
+  <meta property="og:image:height" content="400" />
+  <meta property="og:description" content="Mangalsetu - A Matrimony for Agarawal Community" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href=<?php echo base_url('assets/css/style.css');?>>
+  <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/img/ms_fevicon.ico" type="image/x-icon">
+  <link rel="icon" href="<?php echo base_url(); ?>assets/img/ms_fevicon.ico" type="image/x-icon">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="header">
+  <nav class="container navbar navbar-expand-lg navbar-dark bg-none">
+    <a class="navbar-brand" style="font-family: sans-serif;font-weight: 900;" href="<?= base_url();?>">Mangal Setu</a>
+  </nav>
+  </div>
+  <style>
 .myImg {
   border-radius: 5px;
   cursor: pointer;
@@ -86,17 +118,12 @@
 }
 </style>
 <div class="container mt-5">
-    <?php if($member_details->payment_status != 1){ ?>
-        <div class="alert alert-danger text-center" role="alert">
-            You are not a Prime Member. Please <a href="<?= base_url('Payment');?>">Proceed To Payment</a> to become a Prime Member or Contact to customer Support.
-        </div>    
-    <?php }?>
   <div class="row">
     <div class="col-md-4">         
         <div class="login_box text-center">
         <div class="image-circle profile-pic">
-                <img style="height: inherit;" src="<?= base_url();?>assets/profile_img/<?=$member_details->image_1;?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile"/>
-         </div>
+          <img style="height: inherit;" src="<?= base_url();?>assets/profile_img/<?=$member_details->image_1;?>" onerror="this.src='<?= base_url();?>assets/profile_img/default_user.png'" alt="User Profile"/>
+        </div>
           <div class="line">
               <h3>
                   <?php echo $member_details->firstname." ".$member_details->lastname;
@@ -108,11 +135,6 @@
                   </svg>
                       <?php }?>
               </h3>
-          </div>
-
-          <strong aling="left">Profile :</strong>
-          <div class="progress">
-              <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="<?=$profile_percent;?>" aria-valuemin="0" aria-valuemax="100" style="width: <?=$profile_percent;?>%"></div>
           </div>
           <div class="row">
               <label class="col-sm-12 col-form-label">Email : <?=$member_details->email;?></label>
@@ -126,7 +148,6 @@
     <div class="col-md-8">
       <div class="heading" style="height: 50px !important;">
         <h5 class="pull-left">User Details</h5>
-        <span class="pull-right"><a href="<?=base_url('Member/EditProfile');?>">Edit Profile</a></span>
       </div>
       <div class="profileimg">	
        <div class="row">

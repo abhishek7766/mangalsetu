@@ -4,6 +4,14 @@
   <title>Mangal Setu : Agrasen Samaj</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="<?= base_url();?>assets/img/op_image.jpg" />
+  <meta property="og:title" content="Mangal Setu : Agrasen Samaj" />
+  <meta property="og:image:secure_url" content="<?= base_url();?>assets/img/op_image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="400" />
+  <meta property="og:image:height" content="400" />
+  <meta property="og:description" content="Mangalsetu - Mangalsetu means the path of auspicious work.
+Getting married or getting it done is an auspicious task, so this work is present in Mangal setu." />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css');?>">
   
@@ -220,6 +228,7 @@ body{
         	<h3>Recently Added Profiles</h3>
 			<div class="scrolling-box">
 				<?php foreach($new_members as $member){?>
+        <a href="<?= base_url();?>MemberProfile/<?= $member['member_id'];?>">
 				<div class="row mb-1" style="background: #fff;">
 					<div class="col-sm-4">
           <?php
@@ -237,6 +246,7 @@ body{
 						<h5>City : <?=$member['city'];?></h5>
 					</div>
 				</div>
+        </a>
 				<?php } ?>
         	</div>  
 		</div>

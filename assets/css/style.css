@@ -332,11 +332,12 @@ background-color: #ffffff40;
 }
 
 .image-circle{
+   overflow: hidden;
    border-radius: 50%;
    width: 175px;
    height: 175px;
    border: 4px solid #FFF;
-   margin: 10px;
+   margin: 0 auto;
 }
 .profile-circle{
    border-radius: 50%;

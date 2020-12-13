@@ -57,3 +57,4 @@ $route['About'] = 'welcome/about';
 $route['PhoneVerification'] = 'Member/phone_verification';
 $route['EmailVerification'] = 'Registration/VerifyEmail';
 $route['EmailVerification/(:any)'] = 'Registration/VerifyEmail/$1';
+$route['MemberProfile/(:any)'] = 'MemberProfile/index/$1';
